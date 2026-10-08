@@ -1,5 +1,13 @@
 # سایلنت‌سل (SilentSell) — Changelog
 
+## v5.1.1 (2026-10-08)
+
+- رفع: متن بالای پنل ادمین (کلید `msg_panel_admin_bot_report` در `lang/fa.php`) هنوز متن اصلی میرزا را نشان می‌داد («رایگان است»، «فروش تخلف است») و «Version Mini App» دو بار می‌آمد. `apply_branding.php` حالا هر دو نام کلید (`msg_panel_admin_bot_report` و `aboutBot`) را پیدا و جایگزین می‌کند و قبل از ذخیره درستی فایل زبان را می‌سنجد.
+- متن تازهٔ پنل ادمین: سایلنت‌سل رایگان نیست و با لایسنس اشتراکی ارائه می‌شود؛ خرید و تمدید لایسنس از آیدی تلگرام @silentpingvpn.
+- متن «درباره» (فایل `version`) کوتاه شد و تکرار ندارد؛ منبع پایه با مجوزش ذکر می‌شود: ربات متن‌باز میرزا (AGPL-3.0).
+
+---
+
 ## v5.1.0 (2026-10-08)
 
 - نام ربات از «mirza_vali Pro» به **سایلنت‌سل (SilentSell)** تغییر کرد: ریپو `silent4time/silentsell`، مسیر `/home/silentsell`، سورس `/opt/silentsell-src`، تنظیمات `/etc/silentsell`، فرمان `sudo silentsell` و بستهٔ `silentsell-latest.zip`.
