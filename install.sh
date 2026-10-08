@@ -1,24 +1,32 @@
 #!/usr/bin/env bash
-# mirza_vali Pro — one-line / local installer
+# SilentSell (سایلنت‌سل) — one-line / local installer
 # ------------------------------------------------------------
-# NOT classic mirza_vali. Classic=/home/mirza_vali  Pro=/home/mirza_vali_pro
+#   curl -fsSL https://raw.githubusercontent.com/silent4time/silentsell/main/install.sh | sudo bash
 #
-# Public repo (testing):
-#   curl -fsSL https://raw.githubusercontent.com/silent4time/mirza_vali_pro/main/install.sh | sudo bash
+# Local zip:
+#   sudo bash install.sh /root/silentsell-latest.zip
 #
-# Local zip (or after repo is Private again):
-#   sudo bash install.sh /root/mirza_vali_pro-latest.zip
+# Any manage.sh command can follow (install, update, migrate, status, ...):
+#   sudo bash install.sh /root/silentsell-latest.zip migrate --dry-run
+#
+# An old "mirza_vali Pro" install (/home/mirza_vali_pro) is found automatically;
+# menu option 10 (or the "migrate" command) moves it to /home/silentsell.
 # ------------------------------------------------------------
 set -euo pipefail
 
 REPO_OWNER="${REPO_OWNER:-silent4time}"
-REPO_NAME="${REPO_NAME:-mirza_vali_pro}"
-REPO_RAW="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main"
-REPO_ZIP_RAW="${REPO_RAW}/mirza_vali_pro-latest.zip"
-REPO_ZIP_GITHUB="https://github.com/${REPO_OWNER}/${REPO_NAME}/raw/main/mirza_vali_pro-latest.zip"
-SRC_DIR="/opt/mirza_vali_pro-src"
-WORK="/tmp/mirza_vali_pro_install_$$"
-LOCAL_ZIP="${1:-}"
+REPO_NAME="${REPO_NAME:-silentsell}"
+ZIP_NAME="silentsell-latest.zip"
+REPO_ZIP_RAW="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${ZIP_NAME}"
+REPO_ZIP_GITHUB="https://github.com/${REPO_OWNER}/${REPO_NAME}/raw/main/${ZIP_NAME}"
+SRC_DIR="/opt/silentsell-src"
+WORK="/tmp/silentsell_install_$$"
+
+LOCAL_ZIP=""
+if [[ "${1:-}" == *.zip ]]; then
+  LOCAL_ZIP="$1"
+  shift
+fi
 
 if [[ ${EUID:-$(id -u)} -ne 0 ]]; then
   echo "Please run as root (sudo)."
@@ -30,24 +38,11 @@ command -v curl >/dev/null 2>&1 || { apt-get update -y >/dev/null 2>&1; apt-get 
 command -v unzip >/dev/null 2>&1 || { apt-get update -y >/dev/null 2>&1; apt-get install -y unzip >/dev/null 2>&1; }
 
 mkdir -p "$WORK"
-ZIP_FILE="$WORK/mirza_vali_pro-latest.zip"
+ZIP_FILE="$WORK/${ZIP_NAME}"
 
 pick_local_zip() {
-  local candidates=(
-    "$LOCAL_ZIP"
-    "/root/mirza_vali_pro-latest.zip"
-    "/home/mirza_vali_pro-latest.zip"
-    "/root/mirza_vali_pro_v4.0.2.zip"
-    "/home/mirza_vali_pro_v4.0.3.zip
-    "/root/mirza_vali_pro_v4.0.3.zip"
-    "/home/mirza_vali_pro_v4.0.2.zip""
-    "/root/mirza_vali_pro_v4.0.1.zip"
-    "/home/mirza_vali_pro_v4.0.1.zip"
-    "/root/mirza_vali_pro_v4.0.0.zip"
-    "/home/mirza_vali_pro_v4.0.0.zip"
-  )
   local c
-  for c in "${candidates[@]}"; do
+  for c in "$LOCAL_ZIP" "/root/${ZIP_NAME}" "/home/${ZIP_NAME}"; do
     if [[ -n "$c" && -f "$c" && -s "$c" ]]; then
       echo "$c"
       return 0
@@ -56,17 +51,15 @@ pick_local_zip() {
   return 1
 }
 
-echo "[*] mirza_vali Pro installer"
-echo "    Target install path (default): /home/mirza_vali_pro"
-echo "    Classic mirza_vali at /home/mirza_vali will NOT be touched."
+echo "[*] SilentSell installer"
+echo "    Install path (default): /home/silentsell"
 echo ""
 
 if [[ "${SKIP_LOCAL:-0}" != "1" ]] && LOCAL_FOUND="$(pick_local_zip)"; then
   echo "[*] Using local package: $LOCAL_FOUND"
   cp -f "$LOCAL_FOUND" "$ZIP_FILE"
 else
-  echo "[*] No local zip found — trying GitHub (${REPO_OWNER}/${REPO_NAME})..."
-  echo "    Public repo download: mirza_vali_pro-latest.zip from GitHub main"
+  echo "[*] Downloading ${ZIP_NAME} from GitHub (${REPO_OWNER}/${REPO_NAME})..."
   OK=0
   if [[ -n "${GITHUB_TOKEN:-${GH_TOKEN:-}}" ]]; then
     TOK="${GITHUB_TOKEN:-$GH_TOKEN}"
@@ -85,10 +78,7 @@ else
   fi
   if [[ "$OK" -ne 1 ]]; then
     echo "[x] Could not download from GitHub."
-    echo "    Checklist:"
-    echo "      1) Repo silent4time/mirza_vali_pro is Public (or use GH_TOKEN)"
-    echo "      2) File mirza_vali_pro-latest.zip exists on branch main (repo root)"
-    echo "      3) Or upload zip to server: sudo bash install.sh /root/mirza_vali_pro-latest.zip"
+    echo "    Upload the zip to the server and run: sudo bash install.sh /root/${ZIP_NAME}"
     rm -rf "$WORK"
     exit 1
   fi
@@ -104,56 +94,37 @@ echo "[*] Extracting..."
 mkdir -p "$WORK/out"
 unzip -qo "$ZIP_FILE" -d "$WORK/out"
 
-if [[ ! -f "$WORK/out/manage.sh" ]] && [[ -f "$WORK/out/mirza_vali_pro-latest.zip" ]]; then
-  echo "[*] Nested mirza_vali_pro-latest.zip detected — extracting inner package..."
-  mkdir -p "$WORK/inner"
-  unzip -qo "$WORK/out/mirza_vali_pro-latest.zip" -d "$WORK/inner"
-  rm -rf "$WORK/out"
-  mv "$WORK/inner" "$WORK/out"
-fi
-
 FOUND=""
 if [[ -f "$WORK/out/manage.sh" && -d "$WORK/out/patch" ]]; then
   FOUND="$WORK/out"
 else
   FOUND="$(find "$WORK/out" -type f -name manage.sh 2>/dev/null | head -1 || true)"
-  if [[ -n "$FOUND" ]]; then
-    FOUND="$(dirname "$FOUND")"
-  fi
+  [[ -n "$FOUND" ]] && FOUND="$(dirname "$FOUND")"
 fi
 
-if [[ -z "$FOUND" || ! -f "$FOUND/manage.sh" ]]; then
-  echo "[x] manage.sh not found inside the package."
+if [[ -z "$FOUND" || ! -f "$FOUND/manage.sh" || ! -f "$FOUND/patch/botapi.php" ]]; then
+  echo "[x] This zip is not a SilentSell package (manage.sh / patch/ missing)."
   rm -rf "$WORK"
   exit 1
 fi
-if [[ ! -d "$FOUND/patch" || ! -f "$FOUND/patch/botapi.php" ]]; then
-  echo "[x] patch/ folder missing inside the package."
-  rm -rf "$WORK"
-  exit 1
-fi
-
-if grep -q 'PROJECT_NAME="mirza_vali"' "$FOUND/manage.sh" 2>/dev/null && ! grep -q 'PROJECT_NAME="mirza_vali_pro"' "$FOUND/manage.sh" 2>/dev/null; then
-  echo "[x] This package looks like CLASSIC mirza_vali (not Pro)."
+if ! grep -q 'PROJECT_NAME="silentsell"' "$FOUND/manage.sh"; then
+  echo "[x] This package is not SilentSell."
   rm -rf "$WORK"
   exit 1
 fi
 
-echo "[*] Installing Pro source to $SRC_DIR ..."
+echo "[*] Installing source to $SRC_DIR ..."
 rm -rf "$SRC_DIR"
-mkdir -p /opt "$SRC_DIR"
+mkdir -p "$SRC_DIR"
 cp -a "$FOUND"/. "$SRC_DIR/"
 chmod +x "$SRC_DIR/manage.sh" "$SRC_DIR/install.sh" 2>/dev/null || true
+ln -sf "$SRC_DIR/manage.sh" /usr/local/bin/silentsell
 rm -rf "$WORK"
 
-echo "[*] Source OK"
-echo "    Classic (if any): /home/mirza_vali  — left alone"
-echo "    Pro default path: /home/mirza_vali_pro"
-echo "[*] Starting mirza_vali Pro management panel..."
-echo "    Choose: 1) Install mirza_vali Pro"
+echo "[*] Source OK — command: sudo silentsell"
 cd "$SRC_DIR"
-if [[ -e /dev/tty ]]; then
-  exec bash ./manage.sh "$@" < /dev/tty
+if [[ $# -eq 0 && -e /dev/tty ]]; then
+  exec bash ./manage.sh < /dev/tty
 else
   exec bash ./manage.sh "$@"
 fi

@@ -3,109 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>mirza_vali Pro — دستور نصب</title>
+  <title>سایلنت‌سل — دستور نصب</title>
   <style>
     :root {
-      --bg: #0f1419; --card: #1a2332; --line: #2d3a4d;
-      --text: #e7ecf3; --muted: #8b9bb4; --accent: #3b82f6; --ok: #22c55e;
+      --bg: #0D0D0D; --card: #1A1A1A; --line: #2C2C2C;
+      --text: #FFFFFF; --muted: #A8A8A8; --accent: #F5C518; --accent-dark: #D4A70F;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    body { margin: 0; font-family: Vazirmatn, system-ui, Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
     .wrap { max-width: 820px; margin: 0 auto; padding: 24px 16px 48px; }
     h1 { font-size: 1.5rem; margin: 0 0 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .pill { font-size: 0.75rem; background: #1e3a5f; color: #93c5fd; padding: 2px 10px; border-radius: 999px; font-weight: 600; }
+    .pill { font-size: 0.75rem; background: var(--accent); color: #0D0D0D; padding: 2px 10px; border-radius: 999px; font-weight: 700; }
     .sub { color: var(--muted); margin-bottom: 24px; }
     .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px 16px; margin-bottom: 16px; }
-    h2 { font-size: 1.05rem; margin: 0 0 12px; color: #93c5fd; }
+    h2 { font-size: 1.05rem; margin: 0 0 12px; color: var(--accent); }
     label { display: block; font-size: 0.85rem; color: var(--muted); margin: 10px 0 4px; }
-    input, select { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: #0f1419; color: var(--text); font-size: 0.95rem; }
-    button { margin-top: 14px; width: 100%; padding: 12px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.95rem; }
-    button.copy { background: #334155; margin-top: 8px; }
-    button:hover { filter: brightness(1.08); }
-    pre { background: #0b1220; border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; direction: ltr; text-align: left; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all; }
+    input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: #0D0D0D; color: var(--text); font-size: 0.95rem; direction: ltr; }
+    button { margin-top: 14px; width: 100%; padding: 12px; border: 0; border-radius: 8px; background: var(--accent); color: #0D0D0D; font-weight: 700; cursor: pointer; font-size: 0.95rem; }
+    button.copy { background: var(--line); color: var(--text); margin-top: 8px; }
+    button:hover { background: var(--accent-dark); }
+    button.copy:hover { background: #3a3a3a; }
+    pre { background: #0D0D0D; border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; direction: ltr; text-align: left; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all; }
     ul { margin: 8px 0; padding-right: 18px; color: var(--muted); font-size: 0.9rem; }
-    .warn { color: #fbbf24; font-size: 0.88rem; }
-    a { color: #93c5fd; }
+    code { direction: ltr; unicode-bidi: embed; }
+    a { color: var(--accent); }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>mirza_vali Pro <span class="pill">v4.0.4</span></h1>
-    <p class="sub">ربات فروش VPN — تلگرام + بله · لایسنس اشتراکی · مسیر پیش‌فرض: <code>/home/mirza_vali_pro</code></p>
-    <p class="warn">این صفحه مخصوص <strong>Pro</strong> است — با نسخه کلاسیک (<code>mirza_vali</code> در <code>/home/mirza_vali</code>) قاطی نشود.</p>
+    <h1>سایلنت‌سل (SilentSell) <span class="pill">v5.1.0</span></h1>
+    <p class="sub">ربات فروش اشتراک سرویس‌های شبکه — تلگرام + بله · لایسنس اشتراکی · مسیر پیش‌فرض: <code>/home/silentsell</code></p>
 
     <div class="card">
-      <h2>۱) نصب یک‌خطی (ریپوی Pro باید Public باشد)</h2>
-      <pre id="cmdInstall">curl -fsSL https://raw.githubusercontent.com/silent4time/mirza_vali_pro/main/install.sh | sudo bash</pre>
+      <h2>۱) نصب یک‌خطی</h2>
+      <pre id="cmdInstall">curl -fsSL https://raw.githubusercontent.com/silent4time/silentsell/main/install.sh | sudo bash</pre>
       <button class="copy" type="button" onclick="copyText('cmdInstall')">کپی دستور نصب</button>
       <ul>
-        <li>مسیر پیش‌فرض: <code>/home/mirza_vali_pro</code></li>
-        <li>STATE: <code>/etc/mirza_vali_pro</code></li>
-        <li>کلاسیک در <code>/home/mirza_vali</code> دست‌نخورده می‌ماند</li>
+        <li>مسیر پیش‌فرض: <code>/home/silentsell</code></li>
+        <li>تنظیمات نصب: <code>/etc/silentsell</code></li>
+        <li>بکاپ‌ها: <code>/root/silentsell-backups</code></li>
       </ul>
     </div>
 
     <div class="card">
-      <h2>۲) نصب از فایل زیپ محلی</h2>
-      <pre id="cmdLocal"># فایل mirza_vali_pro_v4.0.4.zip یا mirza_vali_pro-latest.zip را در /root بگذارید
-sudo bash install.sh /root/mirza_vali_pro-latest.zip</pre>
+      <h2>۲) نصب از فایل زیپ</h2>
+      <pre id="cmdLocal"># فایل silentsell-latest.zip را در /root بگذارید
+sudo bash install.sh /root/silentsell-latest.zip</pre>
       <button class="copy" type="button" onclick="copyText('cmdLocal')">کپی</button>
     </div>
 
     <div class="card">
       <h2>۳) منوی مدیریت</h2>
-      <pre id="cmdMenu">cd /opt/mirza_vali_pro-src &amp;&amp; bash manage.sh
-# یا:
-mirza_vali_pro</pre>
+      <pre id="cmdMenu">sudo silentsell</pre>
       <button class="copy" type="button" onclick="copyText('cmdMenu')">کپی</button>
       <ul>
-        <li>1 — Install mirza_vali Pro</li>
-        <li>2 — Update</li>
-        <li>3 — Remove</li>
-        <li>4 — Reset webhooks / domain</li>
-        <li>5 — Renew SSL</li>
-        <li>7 — Status</li>
+        <li>1 — نصب</li>
+        <li>2 — آپدیت</li>
+        <li>3 — حذف</li>
+        <li>4 — ریست وب‌هوک / دامنه</li>
+        <li>5 — تمدید SSL</li>
+        <li>7 — وضعیت</li>
+        <li>10 — انتقال نصب قدیمی mirza_vali Pro (فقط اگر وجود داشته باشد)</li>
       </ul>
     </div>
 
     <div class="card">
-      <h2>۴) لایسنس (از v4.0.4)</h2>
+      <h2>۴) انتقال از mirza_vali Pro</h2>
+      <pre id="cmdMigrate">sudo silentsell migrate --dry-run   # فقط برنامه را نشان می‌دهد
+sudo silentsell migrate             # بکاپ کامل، انتقال، تست و برگشت خودکار</pre>
+      <button class="copy" type="button" onclick="copyText('cmdMigrate')">کپی</button>
       <ul>
-        <li>سرور لایسنس: <code>https://license.example.com</code></li>
-        <li>در نصب، License key پرسیده می‌شود</li>
-        <li>در ربات ادمین: دستور <code>/license</code></li>
+        <li>دامنه، دیتابیس، توکن‌ها، وب‌هوک‌ها و لایسنس عوض نمی‌شوند</li>
+        <li>پوشهٔ قدیمی داخل <code>/root/silentsell-backups</code> نگه داشته می‌شود</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>۵) لایسنس</h2>
+      <ul>
+        <li>کلید از فروشنده گرفته می‌شود و فقط روی دامنهٔ ربات کار می‌کند</li>
+        <li>ثبت در ربات: منوی مدیریت ← 🔑 لایسنس ربات ← ثبت / ویرایش کلید</li>
+        <li>دیدن وضعیت: دستور <code>/license</code></li>
         <li>انقضا فقط فروش را متوقف می‌کند</li>
       </ul>
-      <pre>https://license.example.com/admin/
-https://license.example.com/api/verify.php</pre>
     </div>
 
     <div class="card">
-      <h2>۵) تولید یادداشت نصب</h2>
-      <label>GitHub user</label>
-      <input id="ghUser" value="silent4time" />
-      <label>Repo (باید mirza_vali_pro باشد)</label>
-      <input id="ghRepo" value="mirza_vali_pro" />
+      <h2>۶) تولید یادداشت نصب</h2>
       <label>مسیر نصب</label>
-      <input id="installDir" value="/home/mirza_vali_pro" />
-      <label>دامنه ربات (بدون https)</label>
+      <input id="installDir" value="/home/silentsell" />
+      <label>دامنهٔ ربات (بدون https)</label>
       <input id="domain" value="bot.example.com" />
       <button type="button" onclick="buildNote()">ساخت یادداشت</button>
       <pre id="noteOut" style="margin-top:12px">—</pre>
       <button class="copy" type="button" onclick="copyText('noteOut')">کپی یادداشت</button>
     </div>
 
-    <div class="card">
-      <h2>۶) تست سریع بعد از نصب</h2>
-      <pre id="cmdTest">php -r 'require "/home/mirza_vali_pro/config.php"; echo "DB_OK\n";'
-curl -sS -o /dev/null -w "HTTPS=%{http_code}\n" https://YOUR_DOMAIN/
-# ادمین ربات: /license</pre>
-    </div>
-
     <p class="sub">
       پایه: <a href="https://github.com/mahdiMGF2/mirzabot">mahdiMGF2/mirzabot</a>
-      · Pro: <a href="https://github.com/silent4time/mirza_vali_pro">silent4time/mirza_vali_pro</a>
-      · کلاسیک جدا: <a href="https://github.com/silent4time/mirza_vali">silent4time/mirza_vali</a>
+      · ریپو: <a href="https://github.com/silent4time/silentsell">silent4time/silentsell</a>
     </p>
   </div>
   <script>
@@ -115,23 +111,19 @@ curl -sS -o /dev/null -w "HTTPS=%{http_code}\n" https://YOUR_DOMAIN/
       navigator.clipboard.writeText(t).then(() => alert('کپی شد'));
     }
     function buildNote() {
-      const user = document.getElementById('ghUser').value || 'silent4time';
-      const repo = document.getElementById('ghRepo').value || 'mirza_vali_pro';
-      const dir = document.getElementById('installDir').value || '/home/mirza_vali_pro';
+      const dir = document.getElementById('installDir').value || '/home/silentsell';
       const domain = document.getElementById('domain').value || 'bot.example.com';
       const lines = [
-        'mirza_vali Pro v4.0.4',
+        'SilentSell v5.1.0',
         'Install path: ' + dir,
         'Domain: ' + domain,
-        'NOT classic mirza_vali',
         '',
-        'curl -fsSL https://raw.githubusercontent.com/' + user + '/' + repo + '/main/install.sh | sudo bash',
+        'curl -fsSL https://raw.githubusercontent.com/silent4time/silentsell/main/install.sh | sudo bash',
         '',
         'Or local zip:',
-        'sudo bash install.sh /root/mirza_vali_pro-latest.zip',
+        'sudo bash install.sh /root/silentsell-latest.zip',
         '',
-        'Menu: cd /opt/mirza_vali_pro-src && bash manage.sh',
-        'License API: https://license.example.com/api/verify.php',
+        'Menu: sudo silentsell',
         'Admin bot command: /license',
       ];
       document.getElementById('noteOut').textContent = lines.join('\n');
