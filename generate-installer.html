@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>سایلنت‌سل — دستور نصب</title>
+  <title>ویرابات — دستور نصب</title>
   <style>
     :root {
       --bg: #0D0D0D; --card: #1A1A1A; --line: #2C2C2C;
@@ -31,30 +31,30 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>سایلنت‌سل (SilentSell) <span class="pill">v5.1.0</span></h1>
-    <p class="sub">ربات فروش اشتراک سرویس‌های شبکه — تلگرام + بله · لایسنس اشتراکی · مسیر پیش‌فرض: <code>/home/silentsell</code></p>
+    <h1>ویرابات (Virabot) <span class="pill">v5.1.0</span></h1>
+    <p class="sub">ربات فروش اشتراک سرویس‌های شبکه — تلگرام + بله · لایسنس اشتراکی · مسیر پیش‌فرض: <code>/home/virabot</code></p>
 
     <div class="card">
       <h2>۱) نصب یک‌خطی</h2>
-      <pre id="cmdInstall">curl -fsSL https://raw.githubusercontent.com/silent4time/silentsell/main/install.sh | sudo bash</pre>
+      <pre id="cmdInstall">curl -fsSL https://raw.githubusercontent.com/silent4time/virabot/main/install.sh | sudo bash</pre>
       <button class="copy" type="button" onclick="copyText('cmdInstall')">کپی دستور نصب</button>
       <ul>
-        <li>مسیر پیش‌فرض: <code>/home/silentsell</code></li>
-        <li>تنظیمات نصب: <code>/etc/silentsell</code></li>
-        <li>بکاپ‌ها: <code>/root/silentsell-backups</code></li>
+        <li>مسیر پیش‌فرض: <code>/home/virabot</code></li>
+        <li>تنظیمات نصب: <code>/etc/virabot</code></li>
+        <li>بکاپ‌ها: <code>/root/virabot-backups</code></li>
       </ul>
     </div>
 
     <div class="card">
       <h2>۲) نصب از فایل زیپ</h2>
-      <pre id="cmdLocal"># فایل silentsell-latest.zip را در /root بگذارید
-sudo bash install.sh /root/silentsell-latest.zip</pre>
+      <pre id="cmdLocal"># فایل virabot-latest.zip را در /root بگذارید
+sudo bash install.sh /root/virabot-latest.zip</pre>
       <button class="copy" type="button" onclick="copyText('cmdLocal')">کپی</button>
     </div>
 
     <div class="card">
       <h2>۳) منوی مدیریت</h2>
-      <pre id="cmdMenu">sudo silentsell</pre>
+      <pre id="cmdMenu">sudo virabot</pre>
       <button class="copy" type="button" onclick="copyText('cmdMenu')">کپی</button>
       <ul>
         <li>1 — نصب</li>
@@ -69,12 +69,12 @@ sudo bash install.sh /root/silentsell-latest.zip</pre>
 
     <div class="card">
       <h2>۴) انتقال از mirza_vali Pro</h2>
-      <pre id="cmdMigrate">sudo silentsell migrate --dry-run   # فقط برنامه را نشان می‌دهد
-sudo silentsell migrate             # بکاپ کامل، انتقال، تست و برگشت خودکار</pre>
+      <pre id="cmdMigrate">sudo virabot migrate --dry-run   # فقط برنامه را نشان می‌دهد
+sudo virabot migrate             # بکاپ کامل، انتقال، تست و برگشت خودکار</pre>
       <button class="copy" type="button" onclick="copyText('cmdMigrate')">کپی</button>
       <ul>
         <li>دامنه، دیتابیس، توکن‌ها، وب‌هوک‌ها و لایسنس عوض نمی‌شوند</li>
-        <li>پوشهٔ قدیمی داخل <code>/root/silentsell-backups</code> نگه داشته می‌شود</li>
+        <li>پوشهٔ قدیمی داخل <code>/root/virabot-backups</code> نگه داشته می‌شود</li>
       </ul>
     </div>
 
@@ -91,7 +91,7 @@ sudo silentsell migrate             # بکاپ کامل، انتقال، تست 
     <div class="card">
       <h2>۶) تولید یادداشت نصب</h2>
       <label>مسیر نصب</label>
-      <input id="installDir" value="/home/silentsell" />
+      <input id="installDir" value="/home/virabot" />
       <label>دامنهٔ ربات (بدون https)</label>
       <input id="domain" value="bot.example.com" />
       <button type="button" onclick="buildNote()">ساخت یادداشت</button>
@@ -101,7 +101,7 @@ sudo silentsell migrate             # بکاپ کامل، انتقال، تست 
 
     <p class="sub">
       پایه: <a href="https://github.com/mahdiMGF2/mirzabot">mahdiMGF2/mirzabot</a>
-      · ریپو: <a href="https://github.com/silent4time/silentsell">silent4time/silentsell</a>
+      · ریپو: <a href="https://github.com/silent4time/virabot">silent4time/virabot</a>
     </p>
   </div>
   <script>
@@ -111,19 +111,19 @@ sudo silentsell migrate             # بکاپ کامل، انتقال، تست 
       navigator.clipboard.writeText(t).then(() => alert('کپی شد'));
     }
     function buildNote() {
-      const dir = document.getElementById('installDir').value || '/home/silentsell';
+      const dir = document.getElementById('installDir').value || '/home/virabot';
       const domain = document.getElementById('domain').value || 'bot.example.com';
       const lines = [
-        'SilentSell v5.1.0',
+        'Virabot v5.1.0',
         'Install path: ' + dir,
         'Domain: ' + domain,
         '',
-        'curl -fsSL https://raw.githubusercontent.com/silent4time/silentsell/main/install.sh | sudo bash',
+        'curl -fsSL https://raw.githubusercontent.com/silent4time/virabot/main/install.sh | sudo bash',
         '',
         'Or local zip:',
-        'sudo bash install.sh /root/silentsell-latest.zip',
+        'sudo bash install.sh /root/virabot-latest.zip',
         '',
-        'Menu: sudo silentsell',
+        'Menu: sudo virabot',
         'Admin bot command: /license',
       ];
       document.getElementById('noteOut').textContent = lines.join('\n');

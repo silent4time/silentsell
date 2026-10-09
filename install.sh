@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
-# SilentSell (سایلنت‌سل) — one-line / local installer
+# Virabot (ویرابات) — one-line / local installer
 # ------------------------------------------------------------
-#   curl -fsSL https://raw.githubusercontent.com/silent4time/silentsell/main/install.sh | sudo bash
+#   curl -fsSL https://raw.githubusercontent.com/silent4time/virabot/main/install.sh | sudo bash
 #
 # Local zip:
-#   sudo bash install.sh /root/silentsell-latest.zip
+#   sudo bash install.sh /root/virabot-latest.zip
 #
 # Any manage.sh command can follow (install, update, migrate, status, ...):
-#   sudo bash install.sh /root/silentsell-latest.zip migrate --dry-run
+#   sudo bash install.sh /root/virabot-latest.zip migrate --dry-run
 #
 # An old "mirza_vali Pro" install (/home/mirza_vali_pro) is found automatically;
-# menu option 10 (or the "migrate" command) moves it to /home/silentsell.
+# menu option 10 (or the "migrate" command) moves it to /home/virabot.
 # ------------------------------------------------------------
 set -euo pipefail
 
 REPO_OWNER="${REPO_OWNER:-silent4time}"
-REPO_NAME="${REPO_NAME:-silentsell}"
-ZIP_NAME="silentsell-latest.zip"
+REPO_NAME="${REPO_NAME:-virabot}"
+ZIP_NAME="virabot-latest.zip"
 REPO_ZIP_RAW="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${ZIP_NAME}"
 REPO_ZIP_GITHUB="https://github.com/${REPO_OWNER}/${REPO_NAME}/raw/main/${ZIP_NAME}"
-SRC_DIR="/opt/silentsell-src"
-WORK="/tmp/silentsell_install_$$"
+SRC_DIR="/opt/virabot-src"
+WORK="/tmp/virabot_install_$$"
 
 LOCAL_ZIP=""
 if [[ "${1:-}" == *.zip ]]; then
@@ -51,8 +51,8 @@ pick_local_zip() {
   return 1
 }
 
-echo "[*] SilentSell installer"
-echo "    Install path (default): /home/silentsell"
+echo "[*] Virabot installer"
+echo "    Install path (default): /home/virabot"
 echo ""
 
 if [[ "${SKIP_LOCAL:-0}" != "1" ]] && LOCAL_FOUND="$(pick_local_zip)"; then
@@ -103,12 +103,12 @@ else
 fi
 
 if [[ -z "$FOUND" || ! -f "$FOUND/manage.sh" || ! -f "$FOUND/patch/botapi.php" ]]; then
-  echo "[x] This zip is not a SilentSell package (manage.sh / patch/ missing)."
+  echo "[x] This zip is not a Virabot package (manage.sh / patch/ missing)."
   rm -rf "$WORK"
   exit 1
 fi
-if ! grep -q 'PROJECT_NAME="silentsell"' "$FOUND/manage.sh"; then
-  echo "[x] This package is not SilentSell."
+if ! grep -q 'PROJECT_NAME="virabot"' "$FOUND/manage.sh"; then
+  echo "[x] This package is not Virabot."
   rm -rf "$WORK"
   exit 1
 fi
@@ -118,10 +118,11 @@ rm -rf "$SRC_DIR"
 mkdir -p "$SRC_DIR"
 cp -a "$FOUND"/. "$SRC_DIR/"
 chmod +x "$SRC_DIR/manage.sh" "$SRC_DIR/install.sh" 2>/dev/null || true
+ln -sf "$SRC_DIR/manage.sh" /usr/local/bin/virabot
 ln -sf "$SRC_DIR/manage.sh" /usr/local/bin/silentsell
 rm -rf "$WORK"
 
-echo "[*] Source OK — command: sudo silentsell"
+echo "[*] Source OK — command: sudo virabot"
 cd "$SRC_DIR"
 if [[ $# -eq 0 && -e /dev/tty ]]; then
   exec bash ./manage.sh < /dev/tty
